@@ -66,3 +66,10 @@ C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\bin\D
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.csproj.CopyComplete
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\bin\Debug\netcoreapp3.1\AnnouncementWebsite.Views.dll
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\bin\Debug\netcoreapp3.1\AnnouncementWebsite.Views.pdb
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.csproj.CoreCompileInputs.cache
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.MvcApplicationPartsAssemblyInfo.cache
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\Announcement\List.cshtml.g.cs
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.Views.pdb
