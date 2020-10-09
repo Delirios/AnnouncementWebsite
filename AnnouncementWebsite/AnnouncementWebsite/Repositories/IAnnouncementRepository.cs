@@ -9,6 +9,6 @@ namespace AnnouncementWebsite.Repositories
     public interface IAnnouncementRepository
     {
         IEnumerable<Announcement> AllAnnouncements { get; }
-        Announcement GetAnnouncementById { get; }
+        public Announcement GetAnnouncementById(int announcementId);
     }
 }
