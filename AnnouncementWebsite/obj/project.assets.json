@@ -5673,11 +5673,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Git_project\\AnnouncementWebsite\\AnnouncementWebsite\\AnnouncementWebsite\\AnnouncementWebsite.csproj",
+      "projectUniqueName": "C:\\Git_project\\AnnouncementWebsite\\AnnouncementWebsite\\AnnouncementWebsite.csproj",
       "projectName": "AnnouncementWebsite",
-      "projectPath": "C:\\Git_project\\AnnouncementWebsite\\AnnouncementWebsite\\AnnouncementWebsite\\AnnouncementWebsite.csproj",
+      "projectPath": "C:\\Git_project\\AnnouncementWebsite\\AnnouncementWebsite\\AnnouncementWebsite.csproj",
       "packagesPath": "C:\\Users\\lushc\\.nuget\\packages\\",
-      "outputPath": "C:\\Git_project\\AnnouncementWebsite\\AnnouncementWebsite\\AnnouncementWebsite\\obj\\",
+      "outputPath": "C:\\Git_project\\AnnouncementWebsite\\AnnouncementWebsite\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
