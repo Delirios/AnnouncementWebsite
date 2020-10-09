@@ -7,5 +7,10 @@ namespace AnnouncementWebsite.Models
 {
     public class Announcement
     {
+        public int AnnouncementId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime DateAdded { get; set; }
+        public Category Category { get; set; }
     }
 }
