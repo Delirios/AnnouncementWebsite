@@ -52,7 +52,7 @@ namespace AnnouncementWebsite
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Announcement}/{action=List}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
