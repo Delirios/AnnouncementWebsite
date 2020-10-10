@@ -135,7 +135,6 @@ C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\A
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.TagHelpers.input.cache
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.TagHelpers.output.cache
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.RazorCoreGenerate.cache
-C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\Announcement\List.cshtml.g.cs
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
@@ -150,3 +149,5 @@ C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\A
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\AnnouncementWebsite.genruntimeconfig.cache
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_AnnouncementCard.cshtml.g.cs
 C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\Announcement\AnnouncementDetails.cshtml.g.cs
+C:\Git_project\AnnouncementWebsite\AnnouncementWebsite\obj\Debug\netcoreapp3.1\Razor\Views\Announcement\AnnouncementList.cshtml.g.cs

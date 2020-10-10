@@ -19,13 +19,20 @@ namespace AnnouncementWebsite.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult AnnouncementList()
+        public ViewResult AnnouncementList()
         {
             AnnouncementListViewModel announcementListViewModel = new AnnouncementListViewModel();
-            AnnouncementCardViewModel announcementCardViewModel = new AnnouncementCardViewModel();
             announcementListViewModel.Announcements = _announcementRepository.AllAnnouncements;
             announcementListViewModel.CurrentCutegory = "Other";
             return View(announcementListViewModel);
+        }
+
+        public IActionResult AnnouncementDetails(int id)
+        {
+            var announcement = _announcementRepository.GetAnnouncementById(id);
+            if (announcement == null)
+                return NotFound();
+            return View(announcement);
         }
     }
 }
