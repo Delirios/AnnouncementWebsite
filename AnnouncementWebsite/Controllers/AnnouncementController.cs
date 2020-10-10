@@ -19,9 +19,10 @@ namespace AnnouncementWebsite.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult List()
+        public IActionResult AnnouncementList()
         {
             AnnouncementListViewModel announcementListViewModel = new AnnouncementListViewModel();
+            AnnouncementCardViewModel announcementCardViewModel = new AnnouncementCardViewModel();
             announcementListViewModel.Announcements = _announcementRepository.AllAnnouncements;
             announcementListViewModel.CurrentCutegory = "Other";
             return View(announcementListViewModel);

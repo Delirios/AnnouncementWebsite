@@ -13,5 +13,11 @@ namespace AnnouncementWebsite.Models
         public DateTime DateAdded { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public List<AnnouncementImage> AnnouncementImages { get; set; }
+
+        public Announcement()
+        {
+            AnnouncementImages = new List<AnnouncementImage>();
+        }
     }
 }

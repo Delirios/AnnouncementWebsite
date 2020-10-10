@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AnnouncementWebsite.Models;
+using AnnouncementWebsite.ViewModels;
 
 namespace AnnouncementWebsite.Repositories
 {
@@ -10,5 +11,6 @@ namespace AnnouncementWebsite.Repositories
     {
         IEnumerable<Announcement> AllAnnouncements { get; }
         public Announcement GetAnnouncementById(int announcementId);
+
     }
 }

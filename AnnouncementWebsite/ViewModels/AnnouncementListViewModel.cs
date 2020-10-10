@@ -10,5 +10,7 @@ namespace AnnouncementWebsite.ViewModels
     {
         public IEnumerable<Announcement> Announcements { get; set; }
         public string CurrentCutegory { get; set; }
+
+
     }
 }

@@ -49,7 +49,7 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 1,
                             CategoryId = 1,
-                            DateAdded = new DateTime(2020, 10, 9, 19, 0, 55, 997, DateTimeKind.Local).AddTicks(6563),
+                            DateAdded = new DateTime(2020, 10, 10, 18, 43, 31, 893, DateTimeKind.Local).AddTicks(9543),
                             Description = "Some First Description",
                             Title = "First"
                         },
@@ -57,7 +57,7 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 2,
                             CategoryId = 1,
-                            DateAdded = new DateTime(2020, 10, 9, 19, 0, 56, 2, DateTimeKind.Local).AddTicks(358),
+                            DateAdded = new DateTime(2020, 10, 10, 18, 43, 31, 901, DateTimeKind.Local).AddTicks(5197),
                             Description = "Some Second Description",
                             Title = "Second"
                         },
@@ -65,9 +65,47 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 3,
                             CategoryId = 2,
-                            DateAdded = new DateTime(2020, 10, 9, 19, 0, 56, 2, DateTimeKind.Local).AddTicks(535),
+                            DateAdded = new DateTime(2020, 10, 10, 18, 43, 31, 901, DateTimeKind.Local).AddTicks(5510),
                             Description = "Some Third Description",
                             Title = "Third"
+                        });
+                });
+
+            modelBuilder.Entity("AnnouncementWebsite.Models.AnnouncementImage", b =>
+                {
+                    b.Property<int>("AnnouncementId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AnnouncementImageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AnnouncementId", "ImageId");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("AnnouncementImages");
+
+                    b.HasData(
+                        new
+                        {
+                            AnnouncementId = 1,
+                            ImageId = 1,
+                            AnnouncementImageId = 1
+                        },
+                        new
+                        {
+                            AnnouncementId = 2,
+                            ImageId = 2,
+                            AnnouncementImageId = 2
+                        },
+                        new
+                        {
+                            AnnouncementId = 3,
+                            ImageId = 1,
+                            AnnouncementImageId = 3
                         });
                 });
 
@@ -98,11 +136,53 @@ namespace AnnouncementWebsite.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AnnouncementWebsite.Models.Image", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ImageId");
+
+                    b.ToTable("Images");
+
+                    b.HasData(
+                        new
+                        {
+                            ImageId = 1,
+                            Name = "1.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 2,
+                            Name = "2.jpg"
+                        });
+                });
+
             modelBuilder.Entity("AnnouncementWebsite.Models.Announcement", b =>
                 {
                     b.HasOne("AnnouncementWebsite.Models.Category", "Category")
                         .WithMany("Announcements")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AnnouncementWebsite.Models.AnnouncementImage", b =>
+                {
+                    b.HasOne("AnnouncementWebsite.Models.Announcement", "Announcement")
+                        .WithMany("AnnouncementImages")
+                        .HasForeignKey("AnnouncementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AnnouncementWebsite.Models.Image", "Image")
+                        .WithMany("AnnouncementImages")
+                        .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
