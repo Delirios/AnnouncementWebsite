@@ -12,6 +12,7 @@ namespace AnnouncementWebsite.ViewModels
         public IEnumerable<Category> Categories { get; set; }
 
         public Category CurrentCategory { get; set; }
+        public Announcement Announcement { get; set; }
 
 
     }

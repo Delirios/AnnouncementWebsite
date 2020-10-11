@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AnnouncementWebsite.Migrations
 {
-    public partial class IdentityAdded : Migration
+    public partial class SomeTest : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,32 @@ namespace AnnouncementWebsite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,8 +118,8 @@ namespace AnnouncementWebsite.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -137,8 +163,8 @@ namespace AnnouncementWebsite.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -152,60 +178,119 @@ namespace AnnouncementWebsite.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.UpdateData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 1,
-                column: "DateAdded",
-                value: new DateTime(2020, 10, 11, 14, 45, 34, 483, DateTimeKind.Local).AddTicks(7208));
+            migrationBuilder.CreateTable(
+                name: "Announcements",
+                columns: table => new
+                {
+                    AnnouncementId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    DateAdded = table.Column<DateTime>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
+                    AplicationUserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Announcements", x => x.AnnouncementId);
+                    table.ForeignKey(
+                        name: "FK_Announcements_AspNetUsers_AplicationUserId",
+                        column: x => x.AplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Announcements_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
-            migrationBuilder.UpdateData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 2,
-                column: "DateAdded",
-                value: new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(6637));
-
-            migrationBuilder.UpdateData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 3,
-                column: "DateAdded",
-                value: new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(7111));
+            migrationBuilder.CreateTable(
+                name: "AnnouncementImages",
+                columns: table => new
+                {
+                    AnnouncementId = table.Column<int>(nullable: false),
+                    ImageId = table.Column<int>(nullable: false),
+                    AnnouncementImageId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnnouncementImages", x => new { x.AnnouncementId, x.ImageId });
+                    table.ForeignKey(
+                        name: "FK_AnnouncementImages_Announcements_AnnouncementId",
+                        column: x => x.AnnouncementId,
+                        principalTable: "Announcements",
+                        principalColumn: "AnnouncementId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AnnouncementImages_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "ImageId",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
-                values: new object[] { 3, "Garden" });
+                values: new object[,]
+                {
+                    { 1, "Vehicle" },
+                    { 2, "Others" },
+                    { 3, "Garden" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Images",
                 columns: new[] { "ImageId", "Name" },
                 values: new object[,]
                 {
+                    { 1, "1.jpg" },
+                    { 2, "2.jpg" },
                     { 3, "3.jpg" },
                     { 4, "4.jpg" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Announcements",
-                columns: new[] { "AnnouncementId", "CategoryId", "DateAdded", "Description", "Title" },
-                values: new object[] { 4, 3, new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(7491), "Some Fourth Description", "Fourth" });
+                columns: new[] { "AnnouncementId", "AplicationUserId", "CategoryId", "DateAdded", "Description", "Title" },
+                values: new object[,]
+                {
+                    { 1, null, 1, new DateTime(2020, 10, 11, 17, 30, 57, 316, DateTimeKind.Local).AddTicks(4048), "Some First Description", "First" },
+                    { 2, null, 1, new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5582), "Some Second Description", "Second" },
+                    { 3, null, 2, new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5750), "Some Third Description", "Third" },
+                    { 4, null, 3, new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5801), "Some Fourth Description", "Fourth" },
+                    { 5, null, 3, new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5844), "Some Fifth Description", "Fifth" }
+                });
 
             migrationBuilder.InsertData(
+                table: "AnnouncementImages",
+                columns: new[] { "AnnouncementId", "ImageId", "AnnouncementImageId" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 2, 2 },
+                    { 3, 1, 3 },
+                    { 4, 3, 4 },
+                    { 5, 4, 5 }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnnouncementImages_ImageId",
+                table: "AnnouncementImages",
+                column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Announcements_AplicationUserId",
                 table: "Announcements",
-                columns: new[] { "AnnouncementId", "CategoryId", "DateAdded", "Description", "Title" },
-                values: new object[] { 5, 3, new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(7557), "Some Fifth Description", "Fifth" });
+                column: "AplicationUserId");
 
-            migrationBuilder.InsertData(
-                table: "AnnouncementImages",
-                columns: new[] { "AnnouncementId", "ImageId", "AnnouncementImageId" },
-                values: new object[] { 4, 3, 4 });
-
-            migrationBuilder.InsertData(
-                table: "AnnouncementImages",
-                columns: new[] { "AnnouncementId", "ImageId", "AnnouncementImageId" },
-                values: new object[] { 5, 4, 5 });
+            migrationBuilder.CreateIndex(
+                name: "IX_Announcements_CategoryId",
+                table: "Announcements",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -250,6 +335,9 @@ namespace AnnouncementWebsite.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AnnouncementImages");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -265,66 +353,19 @@ namespace AnnouncementWebsite.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Announcements");
+
+            migrationBuilder.DropTable(
+                name: "Images");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
-            migrationBuilder.DeleteData(
-                table: "AnnouncementImages",
-                keyColumns: new[] { "AnnouncementId", "ImageId" },
-                keyValues: new object[] { 4, 3 });
-
-            migrationBuilder.DeleteData(
-                table: "AnnouncementImages",
-                keyColumns: new[] { "AnnouncementId", "ImageId" },
-                keyValues: new object[] { 5, 4 });
-
-            migrationBuilder.DeleteData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 4);
-
-            migrationBuilder.DeleteData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 5);
-
-            migrationBuilder.DeleteData(
-                table: "Images",
-                keyColumn: "ImageId",
-                keyValue: 3);
-
-            migrationBuilder.DeleteData(
-                table: "Images",
-                keyColumn: "ImageId",
-                keyValue: 4);
-
-            migrationBuilder.DeleteData(
-                table: "Categories",
-                keyColumn: "CategoryId",
-                keyValue: 3);
-
-            migrationBuilder.UpdateData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 1,
-                column: "DateAdded",
-                value: new DateTime(2020, 10, 10, 18, 43, 31, 893, DateTimeKind.Local).AddTicks(9543));
-
-            migrationBuilder.UpdateData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 2,
-                column: "DateAdded",
-                value: new DateTime(2020, 10, 10, 18, 43, 31, 901, DateTimeKind.Local).AddTicks(5197));
-
-            migrationBuilder.UpdateData(
-                table: "Announcements",
-                keyColumn: "AnnouncementId",
-                keyValue: 3,
-                column: "DateAdded",
-                value: new DateTime(2020, 10, 10, 18, 43, 31, 901, DateTimeKind.Local).AddTicks(5510));
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

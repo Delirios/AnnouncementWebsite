@@ -26,6 +26,11 @@ namespace AnnouncementWebsite.Repositories
             }
         }
 
+        public void CreateAnnouncement(Announcement announcement)
+        {
+            throw new NotImplementedException();
+        }
+
         public Announcement GetAnnouncementById(int announcementId)
         {
             return _announcementContext.Announcements.FirstOrDefault(a => a.AnnouncementId == announcementId);

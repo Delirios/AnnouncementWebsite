@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AnnouncementWebsite.Models
 {
-    public class AnnouncementContext : IdentityDbContext<IdentityUser>
+    public class AnnouncementContext : IdentityDbContext<AplicationUser>
     {
         public AnnouncementContext(DbContextOptions<AnnouncementContext> options) : base(options)
         {
@@ -133,5 +133,10 @@ namespace AnnouncementWebsite.Models
                 ImageId = 4
             });
         }
+    }
+
+    public class AplicationUser : IdentityUser
+    {
+        public List<Announcement> Announcements { get; set; }
     }
 }

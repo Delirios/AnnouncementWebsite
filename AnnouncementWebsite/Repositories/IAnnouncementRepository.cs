@@ -14,5 +14,6 @@ namespace AnnouncementWebsite.Repositories
 
         public Announcement GetAnnouncementById(int announcementId);
 
+        public void CreateAnnouncement(Announcement announcement);
     }
 }

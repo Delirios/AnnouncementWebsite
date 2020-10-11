@@ -1,0 +1,44 @@
+﻿@inject UserManager<AplicationUser> UserManager
+
+@model AnnouncementListViewModel
+
+<form asp-action="AddAnnouncement" method="post" class="form-horizontal" role="form"  enctype="multipart/form-data">
+    <h4>You're just one step away from your delicious pies.</h4>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+
+    <div class="form-group">
+        <label asp-for="Announcement.Title" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Announcement.Title" class="form-control" />
+            <span asp-validation-for="Announcement.Title" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Announcement.Description" class="col-md-2 control-label"></label>
+        <div class="col-md-5">
+            <input asp-for="Announcement.Description" class="form-control" />
+            <span asp-validation-for="Announcement.Description" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+    <div>
+        <label asp-for="Announcement.CategoryId"></label>
+        <select asp-for="Announcement.CategoryId" asp-items="@(new SelectList(Model.Categories, "CategoryId", "CategoryName"))">
+        </select>
+    </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <p>Upload file</p>
+            <input class="form-control" type="file" name="files" multiple="" />
+        </div>
+    </div>
+    <div class="form-group">
+            <div class="col-md-10">
+                <input class="btn btn-success" type="submit" value="Upload" />
+            </div>
+        </div>
+</form>

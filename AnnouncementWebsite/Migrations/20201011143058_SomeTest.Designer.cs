@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AnnouncementWebsite.Migrations
 {
     [DbContext(typeof(AnnouncementContext))]
-    [Migration("20201011114536_IdentityAdded")]
-    partial class IdentityAdded
+    [Migration("20201011143058_SomeTest")]
+    partial class SomeTest
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,6 +28,9 @@ namespace AnnouncementWebsite.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -42,6 +45,8 @@ namespace AnnouncementWebsite.Migrations
 
                     b.HasKey("AnnouncementId");
 
+                    b.HasIndex("AplicationUserId");
+
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Announcements");
@@ -51,7 +56,7 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 1,
                             CategoryId = 1,
-                            DateAdded = new DateTime(2020, 10, 11, 14, 45, 34, 483, DateTimeKind.Local).AddTicks(7208),
+                            DateAdded = new DateTime(2020, 10, 11, 17, 30, 57, 316, DateTimeKind.Local).AddTicks(4048),
                             Description = "Some First Description",
                             Title = "First"
                         },
@@ -59,7 +64,7 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 2,
                             CategoryId = 1,
-                            DateAdded = new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(6637),
+                            DateAdded = new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5582),
                             Description = "Some Second Description",
                             Title = "Second"
                         },
@@ -67,7 +72,7 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 3,
                             CategoryId = 2,
-                            DateAdded = new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(7111),
+                            DateAdded = new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5750),
                             Description = "Some Third Description",
                             Title = "Third"
                         },
@@ -75,7 +80,7 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 4,
                             CategoryId = 3,
-                            DateAdded = new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(7491),
+                            DateAdded = new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5801),
                             Description = "Some Fourth Description",
                             Title = "Fourth"
                         },
@@ -83,7 +88,7 @@ namespace AnnouncementWebsite.Migrations
                         {
                             AnnouncementId = 5,
                             CategoryId = 3,
-                            DateAdded = new DateTime(2020, 10, 11, 14, 45, 34, 488, DateTimeKind.Local).AddTicks(7557),
+                            DateAdded = new DateTime(2020, 10, 11, 17, 30, 57, 320, DateTimeKind.Local).AddTicks(5844),
                             Description = "Some Fifth Description",
                             Title = "Fifth"
                         });
@@ -137,6 +142,71 @@ namespace AnnouncementWebsite.Migrations
                             ImageId = 4,
                             AnnouncementImageId = 5
                         });
+                });
+
+            modelBuilder.Entity("AnnouncementWebsite.Models.AplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("AnnouncementWebsite.Models.Category", b =>
@@ -259,71 +329,6 @@ namespace AnnouncementWebsite.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -351,10 +356,12 @@ namespace AnnouncementWebsite.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -391,10 +398,12 @@ namespace AnnouncementWebsite.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -406,6 +415,10 @@ namespace AnnouncementWebsite.Migrations
 
             modelBuilder.Entity("AnnouncementWebsite.Models.Announcement", b =>
                 {
+                    b.HasOne("AnnouncementWebsite.Models.AplicationUser", "AplicationUser")
+                        .WithMany("Announcements")
+                        .HasForeignKey("AplicationUserId");
+
                     b.HasOne("AnnouncementWebsite.Models.Category", "Category")
                         .WithMany("Announcements")
                         .HasForeignKey("CategoryId")
@@ -439,7 +452,7 @@ namespace AnnouncementWebsite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AnnouncementWebsite.Models.AplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -448,7 +461,7 @@ namespace AnnouncementWebsite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AnnouncementWebsite.Models.AplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -463,7 +476,7 @@ namespace AnnouncementWebsite.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AnnouncementWebsite.Models.AplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -472,7 +485,7 @@ namespace AnnouncementWebsite.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AnnouncementWebsite.Models.AplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

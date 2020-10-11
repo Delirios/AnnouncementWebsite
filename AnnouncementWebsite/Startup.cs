@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AnnouncementWebsite.Models;
 using AnnouncementWebsite.Repositories;
+using AnnouncementWebsite.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,10 +31,11 @@ namespace AnnouncementWebsite
             services.AddDbContext<AnnouncementContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AnnouncementContext>();
+            services.AddDefaultIdentity<AplicationUser>().AddEntityFrameworkStores<AnnouncementContext>();
             
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<AnnouncementControllerService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
