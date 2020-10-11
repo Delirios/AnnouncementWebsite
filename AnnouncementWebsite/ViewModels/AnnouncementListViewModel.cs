@@ -9,7 +9,7 @@ namespace AnnouncementWebsite.ViewModels
     public class AnnouncementListViewModel
     {
         public IEnumerable<Announcement> Announcements { get; set; }
-        public string CurrentCutegory { get; set; }
+        public IEnumerable<Category> Categories { get; set; }
 
 
     }

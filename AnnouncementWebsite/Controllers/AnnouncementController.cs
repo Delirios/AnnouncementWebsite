@@ -23,7 +23,7 @@ namespace AnnouncementWebsite.Controllers
         {
             AnnouncementListViewModel announcementListViewModel = new AnnouncementListViewModel();
             announcementListViewModel.Announcements = _announcementRepository.AllAnnouncements;
-            announcementListViewModel.CurrentCutegory = "Other";
+            announcementListViewModel.Categories = _categoryRepository.AllCategories;
             return View(announcementListViewModel);
         }
 

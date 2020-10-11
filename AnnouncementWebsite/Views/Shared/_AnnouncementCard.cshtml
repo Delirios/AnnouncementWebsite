@@ -1,19 +1,19 @@
 ﻿@model Announcement
 @foreach (var announcement in @Model.AnnouncementImages)
 {
-    <a asp-controller ="Announcement" asp-action="AnnouncementDetails" asp-route-id ="@announcement.AnnouncementId">
-        <div  class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                <img  class="bd-placeholder-img card-img-top" width="100%" height="225" src="~/announcement/@announcement.Image.Name"/>
-                <div class="card-body">
-                    <p  class="card-text">@Model.Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                        </div>
-                        <small class="text-muted">@Model.DateAdded</small>
+    <div class="col-md-4">
+        <a asp-controller="Announcement" asp-action="AnnouncementDetails" asp-route-id="@announcement.AnnouncementId">
+        <div class="card mb-4 shadow-sm">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="~/announcement/@announcement.Image.Name" />
+            <div class="card-body">
+                <p class="card-text">@Model.Description</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
                     </div>
+                    <small class="text-muted">@Model.DateAdded</small>
                 </div>
             </div>
         </div>
     </a>
+</div>
 }
