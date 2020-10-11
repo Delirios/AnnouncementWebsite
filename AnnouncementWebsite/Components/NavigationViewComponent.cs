@@ -21,7 +21,7 @@ namespace AnnouncementWebsite.Components
         {
             AnnouncementListViewModel announcementListViewModel = new AnnouncementListViewModel();
             announcementListViewModel.Categories = _categoryRepository.AllCategories;
-            return await Task.FromResult((IViewComponentResult) View("_Navigation", announcementListViewModel));
+            return await Task.FromResult((IViewComponentResult) View("Navigation", announcementListViewModel));
         }
     }
 }

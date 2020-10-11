@@ -11,6 +11,8 @@ namespace AnnouncementWebsite.ViewModels
         public IEnumerable<Announcement> Announcements { get; set; }
         public IEnumerable<Category> Categories { get; set; }
 
+        public Category CurrentCategory { get; set; }
+
 
     }
 }

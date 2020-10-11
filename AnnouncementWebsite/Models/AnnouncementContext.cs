@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AnnouncementWebsite.Models
 {
-    public class AnnouncementContext : DbContext
+    public class AnnouncementContext : IdentityDbContext<IdentityUser>
     {
         public AnnouncementContext(DbContextOptions<AnnouncementContext> options) : base(options)
         {
@@ -36,6 +38,7 @@ namespace AnnouncementWebsite.Models
 
             modelBuilder.Entity<Category>().HasData(new Category {CategoryId = 1, CategoryName = "Vehicle"});
             modelBuilder.Entity<Category>().HasData(new Category {CategoryId = 2, CategoryName = "Others"});
+            modelBuilder.Entity<Category>().HasData(new Category { CategoryId = 3, CategoryName = "Garden" });
 
             modelBuilder.Entity<Announcement>().HasData(new Announcement
             {
@@ -61,6 +64,23 @@ namespace AnnouncementWebsite.Models
                 DateAdded = DateTime.Now,
                 CategoryId = 2
             });
+            modelBuilder.Entity<Announcement>().HasData(new Announcement
+            {
+                AnnouncementId = 4,
+                Title = "Fourth",
+                Description = "Some Fourth Description",
+                DateAdded = DateTime.Now,
+                CategoryId = 3
+            });
+            modelBuilder.Entity<Announcement>().HasData(new Announcement
+            {
+                AnnouncementId = 5,
+                Title = "Fifth",
+                Description = "Some Fifth Description",
+                DateAdded = DateTime.Now,
+                CategoryId = 3
+            });
+
             modelBuilder.Entity<Image>().HasData(new Image
             {
                 ImageId = 1,
@@ -70,6 +90,16 @@ namespace AnnouncementWebsite.Models
             {
                 ImageId = 2,
                 Name = "2.jpg"
+            });
+            modelBuilder.Entity<Image>().HasData(new Image
+            {
+                ImageId = 3,
+                Name = "3.jpg"
+            });
+            modelBuilder.Entity<Image>().HasData(new Image
+            {
+                ImageId = 4,
+                Name = "4.jpg"
             });
 
             modelBuilder.Entity<AnnouncementImage>().HasData(new AnnouncementImage
@@ -89,6 +119,18 @@ namespace AnnouncementWebsite.Models
                 AnnouncementImageId = 3,
                 AnnouncementId = 3,
                 ImageId = 1
+            });
+            modelBuilder.Entity<AnnouncementImage>().HasData(new AnnouncementImage
+            {
+                AnnouncementImageId = 4,
+                AnnouncementId = 4,
+                ImageId = 3
+            });
+            modelBuilder.Entity<AnnouncementImage>().HasData(new AnnouncementImage
+            {
+                AnnouncementImageId = 5,
+                AnnouncementId = 5,
+                ImageId = 4
             });
         }
     }

@@ -9,7 +9,9 @@ namespace AnnouncementWebsite.Repositories
 {
     public interface IAnnouncementRepository
     {
-        IEnumerable<Announcement> AllAnnouncements { get; }
+
+        public IEnumerable<Announcement> AllAnnouncements { get; }
+
         public Announcement GetAnnouncementById(int announcementId);
 
     }

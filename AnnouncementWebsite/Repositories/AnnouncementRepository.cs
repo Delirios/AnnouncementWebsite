@@ -20,7 +20,9 @@ namespace AnnouncementWebsite.Repositories
         {
             get
             {
-                return _announcementContext.Announcements.Include(a => a.AnnouncementImages).ThenInclude(a =>a.Image);
+                return _announcementContext.Announcements.Include(a=>a.Category)
+                    .Include(a => a.AnnouncementImages)
+                    .ThenInclude(a => a.Image);
             }
         }
 
@@ -28,6 +30,7 @@ namespace AnnouncementWebsite.Repositories
         {
             return _announcementContext.Announcements.FirstOrDefault(a => a.AnnouncementId == announcementId);
         }
+
 
     }
 }
