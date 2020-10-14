@@ -1,19 +1,23 @@
 ﻿@model EditAnnouncementViewModel
 
-<h2>Editing</h2>
 
+    <section class="jumbotron align-items-center">
+    <div class="container">
+        <h2>Editing</h2>
 
-<form asp-action="EditAnnouncement" asp-controller="Announcement" asp-route-id="AnnouncementId">
-    <input asp-for="AnnouncementId" type="hidden" />
-    <div class="form-group">
-        <label asp-for="Title" class="control-label">Title</label>
-        <input type="text" asp-for="Title" class="form-control" />
+        <form asp-action="EditAnnouncement" asp-controller="Announcement" asp-route-id="AnnouncementId">
+            <input asp-for="AnnouncementId" type="hidden" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label">Title</label>
+                <input type="text" asp-for="Title" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">Description</label>
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary btn-lg btn-block" />
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Description" class="control-label">Description</label>
-        <input type="text" asp-for="Description" class="form-control" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-default" />
-    </div>
-</form>
+    </section>

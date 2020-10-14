@@ -37,7 +37,7 @@ namespace AnnouncementWebsite.Repositories
             {
                 var result = _announcementContext.Announcements.Include(a => a.Category)
                     .Include(a => a.AnnouncementImages)
-                    .ThenInclude(a => a.Image).Where(a => a.Description.Contains(item)& a.AnnouncementId != announcement.AnnouncementId);
+                    .ThenInclude(a => a.Image).Where(a => (a.Description.Contains(item) | a.Title.Contains(item)) & a.AnnouncementId != announcement.AnnouncementId);
                 announcementsList.AddRange(result);
             }
 
@@ -53,7 +53,7 @@ namespace AnnouncementWebsite.Repositories
                 {
                     var result = _announcementContext.Announcements.Include(a => a.Category)
                         .Include(a => a.AnnouncementImages)
-                        .ThenInclude(a => a.Image).Where(a => a.Title.Contains(item));
+                        .ThenInclude(a => a.Image).Where(a => a.Title.Contains(item) | a.Description.Contains(item));
                     announcementsList.AddRange(result);
                 }
             }
