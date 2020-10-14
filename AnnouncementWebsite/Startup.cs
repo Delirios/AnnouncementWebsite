@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AnnouncementWebsite.Models;
 using AnnouncementWebsite.Repositories;
 using AnnouncementWebsite.Services;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,11 +31,13 @@ namespace AnnouncementWebsite
         {
             services.AddDbContext<AnnouncementContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton(x=> new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
 
             services.AddDefaultIdentity<AplicationUser>().AddEntityFrameworkStores<AnnouncementContext>();
             
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBlobRepository, BlobRepository>();
             services.AddScoped<AnnouncementControllerService>();
 
             services.AddControllersWithViews();

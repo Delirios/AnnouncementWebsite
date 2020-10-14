@@ -53,6 +53,7 @@ namespace AnnouncementWebsite.Controllers
                         .OrderBy(a => a.AnnouncementId);
                 }
                 currentCategory = _categoryRepository.AllCategories.FirstOrDefault(c => c.CategoryName == category);
+                
                 return View(new AnnouncementListViewModel
                 {
                     Announcements = announcements,
@@ -83,7 +84,6 @@ namespace AnnouncementWebsite.Controllers
             if (announcement == null)
                 return NotFound();
             var similarAnnouncements = _announcementRepository.SimilarAnnouncements(announcement).Take(3);
-
             return View(new AnnouncementListViewModel
             {
                 Announcements = similarAnnouncements,
@@ -148,7 +148,7 @@ namespace AnnouncementWebsite.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<RedirectToActionResult> AddAnnouncement(Announcement announcement, List<IFormFile> files)
+        public async Task<RedirectToActionResult> AddAnnouncement(Announcement announcement, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
             announcement.DateAdded = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
@@ -156,22 +156,20 @@ namespace AnnouncementWebsite.Controllers
             
             _announcementContext.Announcements.Add(announcement);
             _announcementContext.SaveChanges();
-            var imageNames = await _announcementControllerService.UploadImages(files, userId);
             
+            var imageName = await _announcementControllerService.UploadImagesToAzure(file, userId);
             
-            foreach (var imageName in imageNames)
-            {
-                AnnouncementImage announcementImage = new AnnouncementImage();
-                Image image = new Image();
-                image.Name = imageName;
-                _announcementContext.Images.Add(image);
-                _announcementContext.SaveChanges();
-                announcementImage.AnnouncementId = announcement.AnnouncementId;
-                announcementImage.Image = image;
-                _announcementContext.AnnouncementImages.Add(announcementImage);
-            }
+            AnnouncementImage announcementImage = new AnnouncementImage();
+            Image image = new Image();
+            image.Name = imageName;
+            _announcementContext.Images.Add(image);
+            _announcementContext.SaveChanges();
+            announcementImage.AnnouncementId = announcement.AnnouncementId;
+            announcementImage.Image = image;
+            _announcementContext.AnnouncementImages.Add(announcementImage);
 
             _announcementContext.SaveChanges();
+
             return RedirectToActionPermanent("Index", "Home");
         }
 

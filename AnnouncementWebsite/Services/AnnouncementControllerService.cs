@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AnnouncementWebsite.Models;
+using AnnouncementWebsite.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 
@@ -11,77 +12,49 @@ namespace AnnouncementWebsite.Services
 {
     public class AnnouncementControllerService
     {
+        private readonly IBlobRepository _blobRepository;
+
+        public AnnouncementControllerService(IBlobRepository blobRepository)
+        {
+            _blobRepository = blobRepository;
+        }
+
         public async Task DeleteImages(Announcement announcement)
         {
             string folderName = "";
             var path = announcement.AnnouncementImages.Where(a => a.AnnouncementId == announcement.AnnouncementId)
-                .Select(a=>a.Image.Name);
+                .Select(a => a.Image.Name);
             foreach (var item in path)
             {
-                folderName = Path.GetDirectoryName(item);
+                folderName = item;
             }
 
-            folderName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "announcement", folderName);
-
-            if (Directory.Exists(folderName))
-            {
-                Directory.Delete(folderName, true);
-            }
+            await _blobRepository.DeleteFileBlobAsync(folderName);
         }
 
-        public async Task<List<string>> UploadImages(List<IFormFile> files, string userId)
+        public async Task<string> UploadImagesToAzure(IFormFile file, string userId)
         {
-            List<string> fileNames = new List<string>();
-            if (files != null)
+            string imageName = "";
+            if (file != null)
             {
                 var uniqueFolderName = userId;
 
                 var uniqueAnnouncementFolderName = Convert.ToString(Guid.NewGuid());
+                //Getting FileName
+                var fileName = Path.GetFileName(file.FileName);
+                //Assigning Unique Filename (Guid)
+                var UniqueFileName = Convert.ToString(Guid.NewGuid());
+                //Getting file Extension
+                var fileExtension = Path.GetExtension(fileName);
+                // concatenating  FileName + FileExtension
+                var newFileName = String.Concat(UniqueFileName, fileExtension);
 
-                string pathFolderString = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "announcement", uniqueFolderName);
-                string fullPath = Path.Combine(pathFolderString, uniqueAnnouncementFolderName);
+                imageName = Path.Combine(uniqueFolderName, uniqueAnnouncementFolderName, newFileName);
 
-                if (!Directory.Exists(pathFolderString))
-                {
-                    Directory.CreateDirectory(pathFolderString);
-                }
-
-                Directory.CreateDirectory(fullPath);
-
-                foreach (var file in files)
-                {
-                    if (file.Length > 0)
-                    {
-                        //Getting FileName
-                        var fileName = Path.GetFileName(file.FileName);
-
-                        //Assigning Unique Filename (Guid)
-                        var UniqueFileName = Convert.ToString(Guid.NewGuid());
-
-                        //Getting file Extension
-                        var fileExtension = Path.GetExtension(fileName);
-
-                        // concatenating  FileName + FileExtension
-                        var newFileName = String.Concat(UniqueFileName, fileExtension);
-
-                        // Combines two strings into a path.
-                        var filePath = Path.Combine(fullPath, newFileName);
-
-                        var ImageName = Path.Combine(uniqueFolderName,uniqueAnnouncementFolderName, newFileName);
-
-                        fileNames.Add(ImageName);
-                        using (FileStream fs = File.Create(filePath))
-                        {
-                            file.CopyTo(fs);
-                            fs.Flush();
-                        }
-
-                    }
-                }
+                await _blobRepository.UploadFileBlobAsync(imageName, file.OpenReadStream(), file.ContentType);
 
             }
-
-            return fileNames;
+            return imageName;
         }
     }
 }

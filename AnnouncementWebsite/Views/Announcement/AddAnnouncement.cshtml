@@ -1,6 +1,6 @@
 ﻿@model AnnouncementListViewModel
 
-<section class="jumbotron align-items-center bg-light">
+<section class="jumbotron align-items-center">
 <div class ="container">
 <form asp-action="AddAnnouncement" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
     <h4 align="center">Add your announcement!</h4>
@@ -33,7 +33,7 @@
     <div class="form-group  mb-3">
         <div>
             <p>Upload photo</p>
-            <input multiple class="choose" type="file" name="files"/>
+            <input multiple class="choose" type="file" name="file"/>
         </div>
     </div>
 

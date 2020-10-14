@@ -1,7 +1,7 @@
 ﻿@model AnnouncementListViewModel
 
 <main role="main">
-    <section class="jumbotron text-center bg-light">
+    <section class="jumbotron text-center">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -34,7 +34,7 @@
     
     <div>
         <partial name="_Search" />
-        <section class="jumbotron text-center bg-light">
+        <section class="jumbotron text-center ">
             <div class="container text-center">
                 @foreach (var category in @Model.Categories)
                 {
