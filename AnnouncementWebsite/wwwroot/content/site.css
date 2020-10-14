@@ -113,3 +113,6 @@ html, body {
     height: 100%;
     margin: 0 auto -60px;
 }
+#similar {
+    padding-bottom: 100px;
+}

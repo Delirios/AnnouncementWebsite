@@ -148,29 +148,40 @@ namespace AnnouncementWebsite.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<RedirectToActionResult> AddAnnouncement(Announcement announcement, IFormFile file)
+        public async Task<IActionResult> AddAnnouncement(Announcement announcement, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
-            announcement.DateAdded = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
-            announcement.AplicationUserId = userId;
-            
-            _announcementContext.Announcements.Add(announcement);
-            _announcementContext.SaveChanges();
-            
             var imageName = await _announcementControllerService.UploadImagesToAzure(file, userId);
-            
-            AnnouncementImage announcementImage = new AnnouncementImage();
-            Image image = new Image();
-            image.Name = imageName;
-            _announcementContext.Images.Add(image);
-            _announcementContext.SaveChanges();
-            announcementImage.AnnouncementId = announcement.AnnouncementId;
-            announcementImage.Image = image;
-            _announcementContext.AnnouncementImages.Add(announcementImage);
 
-            _announcementContext.SaveChanges();
+            if (ModelState.IsValid & imageName != null)
+            {
+                announcement.DateAdded = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                announcement.AplicationUserId = userId;
 
-            return RedirectToActionPermanent("Index", "Home");
+                _announcementContext.Announcements.Add(announcement);
+                _announcementContext.SaveChanges();
+
+                Image image = new Image();
+                image.Name = imageName;
+                AnnouncementImage announcementImage = new AnnouncementImage();
+                _announcementContext.Images.Add(image);
+                _announcementContext.SaveChanges();
+
+                announcementImage.AnnouncementId = announcement.AnnouncementId;
+                announcementImage.Image = image;
+                _announcementContext.AnnouncementImages.Add(announcementImage);
+                _announcementContext.SaveChanges();
+
+                return RedirectToActionPermanent("Index", "Home");
+            }
+
+            ViewBag.Message = "Please upload the photo";
+            return View(new AnnouncementListViewModel
+            {
+                Announcement = announcement,
+                Categories = _categoryRepository.AllCategories
+            });
+
         }
 
         public async Task<IActionResult> MyAnnouncementList()

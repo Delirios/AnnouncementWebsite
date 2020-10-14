@@ -11,10 +11,10 @@ namespace AnnouncementWebsite.Models
     {
 
         public int AnnouncementId { get; set; }
-        //[Required(ErrorMessage = "Please enter title")]
-        //[StringLength(50)]
+        [Required(ErrorMessage = "Please enter title")]
+        [StringLength(50)]
         public string Title { get; set; }
-        //[Required(ErrorMessage = "Please enter description")]
+        [Required(ErrorMessage = "Please enter description")]
         public string Description { get; set; }
         [Display(Name = "Date Added")]
         public string DateAdded { get; set; }

@@ -34,7 +34,7 @@
             </div>
         </div>
     <h3 class="my-4">Similar announcements</h3>
-    <div class="row">
+    <div class="row" id ="similar">
         @foreach (var announcement in Model.Announcements)
         {
             <partial name="_AnnouncementCard" model="announcement" />

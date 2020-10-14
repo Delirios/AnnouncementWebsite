@@ -34,7 +34,7 @@ namespace AnnouncementWebsite.Services
 
         public async Task<string> UploadImagesToAzure(IFormFile file, string userId)
         {
-            string imageName = "";
+            string imageName = null;
             if (file != null)
             {
                 var uniqueFolderName = userId;
