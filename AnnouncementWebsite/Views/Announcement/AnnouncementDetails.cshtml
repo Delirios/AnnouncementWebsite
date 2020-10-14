@@ -1,7 +1,42 @@
-﻿@model Announcement
+﻿@model AnnouncementListViewModel
+@inject UserManager<AplicationUser> UserManager
 
-<h2>@Model.Title</h2>
-<div >
-    <h3>@Model.Description</h3>
-    <h3>@Model.DateAdded</h3>
+<div class="container">
+    <h1 class="my-4">@Model.Announcement.Title</h1>
+    <hr/>
+    <div class="row">
+        @foreach (var announcement in @Model.Announcement.AnnouncementImages)
+        {
+            <div class="col-md-8">
+                <img class="img-fluid" src="~/announcement/@announcement.Image.Name" />
+            </div>
+        }
+    <div class="col-md-4">
+        <h3 class="my-3">Description</h3>
+        <p>@Model.Announcement.Description</p>
+        <h3 class="my-3">Data added</h3>
+        <h4>@Model.Announcement.DateAdded</h4>
+
+        @if (Model.Announcement.AplicationUserId == UserManager.GetUserId(User))
+        {
+            <div class="container">
+                <div class="row" style="margin-top: 30px;" >
+                <a class="btn btn-primary btn-lg active" role="button" aria-pressed="true" asp-controller="Announcement" asp-action="EditAnnouncement" asp-route-id="@Model.Announcement.AnnouncementId">Редагувати</a>
+                    <form method="post" style="margin-left: 10px;">
+                        <input type="submit" class="btn btn-primary btn-lg active" value="Видалити" asp-controller="Announcement" asp-action="DeleteAnnouncement" asp-route-id="@Model.Announcement.AnnouncementId"/>
+                    </form>
+                </div>
+            </div>
+                }
+                <div>
+                </div>
+            </div>
+        </div>
+    <h3 class="my-4">Similar announcements</h3>
+    <div class="row">
+        @foreach (var announcement in Model.Announcements)
+        {
+            <partial name="_AnnouncementCard" model="announcement" />
+        }
+    </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,20 +21,65 @@ namespace AnnouncementWebsite.Repositories
         {
             get
             {
-                return _announcementContext.Announcements.Include(a=>a.Category)
+                return _announcementContext.Announcements.Include(a => a.Category)
                     .Include(a => a.AnnouncementImages)
                     .ThenInclude(a => a.Image);
             }
         }
 
-        public void CreateAnnouncement(Announcement announcement)
+        public IEnumerable<Announcement> SimilarAnnouncements(Announcement announcement)
         {
-            throw new NotImplementedException();
+            var similarWords = announcement.Title.ToLower().Split(" " , StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
+            similarWords.AddRange(announcement.Description.ToLower().Split(" ", StringSplitOptions.RemoveEmptyEntries).Distinct().Where(c=>c.Length>1).ToList());
+
+            List<Announcement> announcementsList= new List<Announcement>();
+            foreach (var item in similarWords.Distinct())
+            {
+                var result = _announcementContext.Announcements.Include(a => a.Category)
+                    .Include(a => a.AnnouncementImages)
+                    .ThenInclude(a => a.Image).Where(a => a.Description.Contains(item)& a.AnnouncementId != announcement.AnnouncementId);
+                announcementsList.AddRange(result);
+            }
+
+            return announcementsList.Distinct();
+        }
+        public IEnumerable<Announcement> SimilarAnnouncements(string SearchString, string categoryName)
+        {
+            var similarWords = SearchString.ToLower().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            List<Announcement> announcementsList = new List<Announcement>();
+            if (categoryName == null)
+            {
+                foreach (var item in similarWords.Distinct())
+                {
+                    var result = _announcementContext.Announcements.Include(a => a.Category)
+                        .Include(a => a.AnnouncementImages)
+                        .ThenInclude(a => a.Image).Where(a => a.Title.Contains(item));
+                    announcementsList.AddRange(result);
+                }
+            }
+            else
+            {
+                foreach (var item in similarWords.Distinct())
+                {
+                    var result = _announcementContext.Announcements.Include(a => a.Category)
+                        .Include(a => a.AnnouncementImages)
+                        .ThenInclude(a => a.Image)
+                        .Where(a => a.Title.Contains(item) & a.Category.CategoryName == categoryName);
+                    announcementsList.AddRange(result);
+                }
+            }
+
+
+
+            return announcementsList;
         }
 
+
+
         public Announcement GetAnnouncementById(int announcementId)
-        {
-            return _announcementContext.Announcements.FirstOrDefault(a => a.AnnouncementId == announcementId);
+        { 
+            return _announcementContext.Announcements.Include(a=>a.AnnouncementImages)
+                .ThenInclude(a=>a.Image).FirstOrDefault(a => a.AnnouncementId == announcementId);
         }
 
 

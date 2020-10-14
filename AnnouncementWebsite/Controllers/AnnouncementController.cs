@@ -34,21 +34,47 @@ namespace AnnouncementWebsite.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public IActionResult AnnouncementList(string category)
+        public IActionResult AnnouncementList(string category,string SearchString)
         {
-            IEnumerable<Announcement> announcements;
-            Category currentCategory;
-
-            announcements = _announcementRepository.AllAnnouncements.Where(a => a.Category.CategoryName == category)
-                .OrderBy(a => a.AnnouncementId);
-
-            currentCategory = _categoryRepository.AllCategories.FirstOrDefault(c => c.CategoryName == category);
-
-            return View(new AnnouncementListViewModel
+            IEnumerable<Announcement> announcements = new List<Announcement>();
+            Category currentCategory = new Category();
+            string categoryName = null;
+            if (category != null & category !="All")
             {
-                Announcements = announcements,
-                CurrentCategory = currentCategory
-            });
+                categoryName = category;
+                if(SearchString !=null)
+                {
+                    announcements = _announcementRepository.SimilarAnnouncements(SearchString, categoryName).OrderBy(a=>a.AnnouncementId);
+                }
+                else
+                {
+                    announcements = _announcementRepository.AllAnnouncements
+                        .Where(a => a.Category.CategoryName == category)
+                        .OrderBy(a => a.AnnouncementId);
+                }
+                currentCategory = _categoryRepository.AllCategories.FirstOrDefault(c => c.CategoryName == category);
+                return View(new AnnouncementListViewModel
+                {
+                    Announcements = announcements,
+                    CurrentCategory = currentCategory
+                });
+            }
+
+            else
+            {
+                if (SearchString != null)
+                {
+                    announcements = _announcementRepository.SimilarAnnouncements(SearchString, categoryName).OrderBy(a => a.AnnouncementId);
+
+                }
+                currentCategory = new Category() { CategoryName = "All" };
+                return View(new AnnouncementListViewModel
+                {
+                    Announcements = announcements,
+                    CurrentCategory = currentCategory
+                });
+
+            }
         }
 
         public IActionResult AnnouncementDetails(int id)
@@ -56,9 +82,63 @@ namespace AnnouncementWebsite.Controllers
             var announcement = _announcementRepository.GetAnnouncementById(id);
             if (announcement == null)
                 return NotFound();
-            return View(announcement);
+            var similarAnnouncements = _announcementRepository.SimilarAnnouncements(announcement).Take(3);
+
+            return View(new AnnouncementListViewModel
+            {
+                Announcements = similarAnnouncements,
+                Announcement = announcement
+            });
+        }
+        public async Task<IActionResult> EditAnnouncement(int id)
+        {
+            if (id != null)
+            {
+                var announcement = _announcementRepository.GetAnnouncementById(id);
+                if (announcement == null)
+                    return NotFound();
+                var editAnnouncement = new EditAnnouncementViewModel()
+                {
+                    AnnouncementId = announcement.AnnouncementId,
+                    Title = announcement.Title,
+                    Description = announcement.Description
+                };
+                return View(editAnnouncement);
+            }
+
+            return NotFound();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> EditAnnouncement(EditAnnouncementViewModel editAnnouncement)
+        {
+            var announcement = _announcementRepository.GetAnnouncementById(editAnnouncement.AnnouncementId);
+
+            announcement.Title = editAnnouncement.Title;
+            announcement.Description = editAnnouncement.Description;
+            announcement.DateAdded = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt");
+
+            _announcementContext.Announcements.Update(announcement);
+            await _announcementContext.SaveChangesAsync();
+            return RedirectToAction("AnnouncementDetails" ,new {id = announcement.AnnouncementId});
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAnnouncement(int id)
+        {
+            var announcement = _announcementRepository.GetAnnouncementById(id);
+            if (announcement != null)
+            {
+                await _announcementControllerService.DeleteImages(announcement);
+                _announcementContext.Announcements.Remove(announcement);
+                await _announcementContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
         public ViewResult AddAnnouncement()
         {
             AnnouncementListViewModel announcementListViewModel = new AnnouncementListViewModel();
@@ -68,10 +148,10 @@ namespace AnnouncementWebsite.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ViewResult> AddAnnouncement(Announcement announcement, List<IFormFile> files)
+        public async Task<RedirectToActionResult> AddAnnouncement(Announcement announcement, List<IFormFile> files)
         {
             var userId = _userManager.GetUserId(User);
-            announcement.DateAdded = DateTime.Today;
+            announcement.DateAdded = DateTime.Now.ToString("dd/MM/yyyy HH:mm");
             announcement.AplicationUserId = userId;
             
             _announcementContext.Announcements.Add(announcement);
@@ -92,7 +172,19 @@ namespace AnnouncementWebsite.Controllers
             }
 
             _announcementContext.SaveChanges();
-            return View();
+            return RedirectToActionPermanent("Index", "Home");
         }
+
+        public async Task<IActionResult> MyAnnouncementList()
+        {
+            var userId = _userManager.GetUserId(User);
+            var myAnnouncement = _announcementRepository.AllAnnouncements.Where(a => a.AplicationUserId == userId);
+
+            return View(new AnnouncementListViewModel
+            {
+                Announcements = myAnnouncement
+            });
+        }
+       
     }
 }

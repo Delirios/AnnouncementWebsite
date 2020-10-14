@@ -1,17 +1,19 @@
-﻿<main role="main">
+﻿@model AnnouncementListViewModel
+
+<main role="main">
     <section class="jumbotron text-center bg-light">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <h1>Створіть своє перше оголошення</h1>
-                    <p class="lead text-muted">Заповніть всі необхідні поля і ваше оголошення скоро з'явиться!</p>
+                    <h1>Create your first announcement</h1>
+                    <p class="lead text-muted">Fill in all required fields and your ad will appear shortly!</p>
                     <p>
-                        <a href="#" class="btn btn-primary my-2">Створити оголошення</a>
+                        <a class="btn btn-primary my-2" asp-controller="Announcement" asp-action="AddAnnouncement">create announcement</a>
                     </p>
                 </div>
                 <div class="carousel-item  ">
-                    <h1>Зареєструйтесь або увійдіть</h1>
-                    <p class="lead text-muted">І вже через хвилину ви зможете розмістити своє оголошення</p>
+                    <h1>Register or Login</h1>
+                    <p class="lead text-muted">And in a minute you can publish your ad</p>
                     <p>
                         <a class="btn btn-primary my-2" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
                         <a class="btn btn-secondary my-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
@@ -29,14 +31,18 @@
         </div>
 
     </section>
-    <section class="jumbotron bg-light text-center">
-        <h1> Пошук оголошень</h1>
-        <div class="input-group mb-3 input-group-lg">
-            <input type="text" class="form-control" placeholder="Search">
-            <div class="input-group-append">
-                <button class="btn btn-success" type="submit">Go</button>
+    
+    <div>
+        <partial name="_Search" />
+        <section class="jumbotron text-center bg-light">
+            <div class="container text-center">
+                @foreach (var category in @Model.Categories)
+                {
+                    <a class="btn btn-primary my-2" asp-controller="Announcement" asp-action="AnnouncementList" asp-route-category="@category.CategoryName">@category.CategoryName</a>
+                }
             </div>
-        </div>
 
-    </section>
+        </section>
+    </div>
+   
 </main>

@@ -1,15 +1,21 @@
 ﻿@model AnnouncementListViewModel
-
-    <main role="main">
-        <div class="album py-5 bg-light">
-            <div class="container">
-                <h2>@Model.CurrentCategory.CategoryName</h2>
-                <div class="row">
-                    @foreach (var announcement in Model.Announcements)
-                    {
-                        <partial name="_AnnouncementCard" model="announcement" />
-                    }
-                </div>
+@{
+    ViewData["CurrentCategory"] = Model.CurrentCategory.CategoryName;
+}
+<main role="main">
+    <div>
+        <partial name="_Search" view-data="ViewData"/>
+    </div>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h1 align="center" >@Model.CurrentCategory.CategoryName</h1>
+            <hr />
+            <div class="row">
+                @foreach (var announcement in Model.Announcements)
+                {
+                    <partial name="_AnnouncementCard" model="announcement"/>
+                }
             </div>
-            </div>
-    </main>
+        </div>
+    </div>
+</main>

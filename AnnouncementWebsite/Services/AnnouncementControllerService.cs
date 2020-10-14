@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AnnouncementWebsite.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 
@@ -10,26 +11,42 @@ namespace AnnouncementWebsite.Services
 {
     public class AnnouncementControllerService
     {
+        public async Task DeleteImages(Announcement announcement)
+        {
+            string folderName = "";
+            var path = announcement.AnnouncementImages.Where(a => a.AnnouncementId == announcement.AnnouncementId)
+                .Select(a=>a.Image.Name);
+            foreach (var item in path)
+            {
+                folderName = Path.GetDirectoryName(item);
+            }
+
+            folderName = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "announcement", folderName);
+
+            if (Directory.Exists(folderName))
+            {
+                Directory.Delete(folderName, true);
+            }
+        }
+
         public async Task<List<string>> UploadImages(List<IFormFile> files, string userId)
         {
             List<string> fileNames = new List<string>();
             if (files != null)
             {
-                var UniqueFolderName = userId;
+                var uniqueFolderName = userId;
 
-                string pathFolderString = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "announcement", UniqueFolderName);
+                var uniqueAnnouncementFolderName = Convert.ToString(Guid.NewGuid());
+
+                string pathFolderString = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "announcement", uniqueFolderName);
+                string fullPath = Path.Combine(pathFolderString, uniqueAnnouncementFolderName);
 
                 if (!Directory.Exists(pathFolderString))
                 {
                     Directory.CreateDirectory(pathFolderString);
                 }
-                else
-                {
-                    foreach (var file in Directory.GetFiles(pathFolderString))
-                    {
-                        File.Delete(file);
-                    }
-                }
+
+                Directory.CreateDirectory(fullPath);
 
                 foreach (var file in files)
                 {
@@ -48,12 +65,12 @@ namespace AnnouncementWebsite.Services
                         var newFileName = String.Concat(UniqueFileName, fileExtension);
 
                         // Combines two strings into a path.
-                        var filepath = Path.Combine(pathFolderString, newFileName);
+                        var filePath = Path.Combine(fullPath, newFileName);
 
-                        var ImageName = Path.Combine(UniqueFolderName, newFileName);
+                        var ImageName = Path.Combine(uniqueFolderName,uniqueAnnouncementFolderName, newFileName);
 
                         fileNames.Add(ImageName);
-                        using (FileStream fs = File.Create(filepath))
+                        using (FileStream fs = File.Create(filePath))
                         {
                             file.CopyTo(fs);
                             fs.Flush();

@@ -1,0 +1,27 @@
+﻿@model AnnouncementListViewModel
+
+<section class="jumbotron bg-light text-center">
+    <h1> Search announcement</h1>
+    @if (ViewData["CurrentCategory"] == null)
+    {
+        <form asp-controller="Announcement" asp-action="AnnouncementList">
+            <div class="input-group mb-3 input-group-lg">
+                <input type="text" name="SearchString" class="form-control" placeholder="Search">
+                <div class="input-group-append">
+                    <button asp- class="btn btn-success" type="submit">Go</button>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+    <form asp-controller="Announcement" asp-action="AnnouncementList" asp-route-category="@ViewData["CurrentCategory"]">
+        <div class="input-group mb-3 input-group-lg">
+            <input type="text" name="SearchString" class="form-control" placeholder="Search">
+            <div class="input-group-append">
+                <button asp- class="btn btn-success" type="submit">Go</button>
+            </div>
+        </div>
+    </form>
+    }
+</section>

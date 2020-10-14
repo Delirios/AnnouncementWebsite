@@ -14,6 +14,7 @@ namespace AnnouncementWebsite.Repositories
 
         public Announcement GetAnnouncementById(int announcementId);
 
-        public void CreateAnnouncement(Announcement announcement);
+        public IEnumerable<Announcement> SimilarAnnouncements(Announcement announcement);
+        public IEnumerable<Announcement> SimilarAnnouncements(string SearchString, string categoryName);
     }
 }
