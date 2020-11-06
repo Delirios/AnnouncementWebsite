@@ -16,31 +16,31 @@ namespace AnnouncementWebsite.Repositories
     public class BlobRepository : IBlobRepository
     {
         private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast2;
-        private readonly BlobServiceClient _blobServiceClient;
-        private readonly string containerName = "announcement";
+        //private readonly BlobServiceClient _blobServiceClient;
+        //private readonly string containerName = "announcement";
         private readonly string bucketName = "myannouncement";
 
         private static IAmazonS3 s3Client;
 
-        public BlobRepository(BlobServiceClient blobServiceClient)
+        public BlobRepository()
         {
-            _blobServiceClient = blobServiceClient;
+            //_blobServiceClient = blobServiceClient;
             s3Client = new AmazonS3Client(bucketRegion);
         }
 
         #region AZURE
-        public async Task UploadFileBlobAsync(string fileName, Stream content, string contentType)
-        {
-            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            var blobClient = containerClient.GetBlobClient(fileName);
-            await blobClient.UploadAsync(content, new BlobHttpHeaders { ContentType = contentType });
-        }
-        public async Task DeleteFileBlobAsync(string fileName)
-        {
-            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
-            var blobClient = containerClient.GetBlobClient(fileName);
-            await blobClient.DeleteAsync();
-        }
+        //public async Task UploadFileBlobAsync(string fileName, Stream content, string contentType)
+        //{
+        //    var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+        //    var blobClient = containerClient.GetBlobClient(fileName);
+        //    await blobClient.UploadAsync(content, new BlobHttpHeaders { ContentType = contentType });
+        //}
+        //public async Task DeleteFileBlobAsync(string fileName)
+        //{
+        //    var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+        //    var blobClient = containerClient.GetBlobClient(fileName);
+        //    await blobClient.DeleteAsync();
+        //}
         #endregion
 
         #region AWS

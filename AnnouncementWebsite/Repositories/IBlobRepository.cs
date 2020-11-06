@@ -9,9 +9,10 @@ namespace AnnouncementWebsite.Repositories
 {
     public interface IBlobRepository
     {
-        Task  UploadFileBlobAsync(string fileName, Stream content, string contentType);
+        //Task  UploadFileBlobAsync(string fileName, Stream content, string contentType);
+        //Task DeleteFileBlobAsync(string fileName);
         Task UploadFileS3Async(string fileName, Stream content, string contentType);
-        Task DeleteFileBlobAsync(string fileName);
+        
         Task DeleteFileS3Async(string fileName);
 
     }

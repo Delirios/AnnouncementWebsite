@@ -29,7 +29,7 @@ namespace AnnouncementWebsite.Services
                 folderName = item;
             }
 
-            await _blobRepository.DeleteFileBlobAsync(folderName);
+            await _blobRepository.DeleteFileS3Async(folderName);
         }
 
         public async Task<string> UploadImages(IFormFile file, string userId)
@@ -63,9 +63,9 @@ namespace AnnouncementWebsite.Services
             await _blobRepository.UploadFileS3Async(imageName, file.OpenReadStream(), imageName);
         }
 
-        public async Task UploadImagesToAzure(IFormFile file,string imageName)
-        {
-            await _blobRepository.UploadFileBlobAsync(imageName, file.OpenReadStream(), file.ContentType);
-        }
+        //public async Task UploadImagesToAzure(IFormFile file,string imageName)
+        //{
+        //    await _blobRepository.UploadFileBlobAsync(imageName, file.OpenReadStream(), file.ContentType);
+        //}
     }
 }

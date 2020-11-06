@@ -31,7 +31,7 @@ namespace AnnouncementWebsite
         {
             services.AddDbContext<AnnouncementContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSingleton(x=> new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
+            //services.AddSingleton(x=> new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
 
             services.AddDefaultIdentity<AplicationUser>().AddEntityFrameworkStores<AnnouncementContext>();
             

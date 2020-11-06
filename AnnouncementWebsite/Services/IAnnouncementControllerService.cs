@@ -10,7 +10,7 @@ namespace AnnouncementWebsite.Services
     public interface IAnnouncementControllerService
     {
         Task DeleteImages(Announcement announcement);
-        Task UploadImagesToAzure(IFormFile file, string imageName);
+        //Task UploadImagesToAzure(IFormFile file, string imageName);
         Task UploadImagesToAWS(IFormFile file, string imageName);
 
         Task<string> UploadImages(IFormFile file, string userId);
