@@ -1,4 +1,4 @@
 # AnnouncementWebsite
 Announcement Website
 
-https://simpleannouncementwebsite.azurewebsites.net/
+http://announcementwebsite.us-west-2.elasticbeanstalk.com/
