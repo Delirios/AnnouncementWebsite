@@ -21,7 +21,7 @@ namespace AnnouncementWebsite.Repositories
         {
             get
             {
-                return _announcementContext.Announcements.Include(a => a.Category)
+                return  _announcementContext.Announcements.Include(a => a.Category)
                     .Include(a => a.AnnouncementImages)
                     .ThenInclude(a => a.Image);
             }
@@ -69,17 +69,15 @@ namespace AnnouncementWebsite.Repositories
                 }
             }
 
-
-
             return announcementsList;
         }
 
 
 
-        public Announcement GetAnnouncementById(int announcementId)
+        public async Task<Announcement> GetAnnouncementById(int announcementId)
         { 
-            return _announcementContext.Announcements.Include(a=>a.AnnouncementImages)
-                .ThenInclude(a=>a.Image).FirstOrDefault(a => a.AnnouncementId == announcementId);
+            return await _announcementContext.Announcements.Include(a=>a.AnnouncementImages)
+                .ThenInclude(a=>a.Image).FirstOrDefaultAsync(a => a.AnnouncementId == announcementId);
         }
 
 

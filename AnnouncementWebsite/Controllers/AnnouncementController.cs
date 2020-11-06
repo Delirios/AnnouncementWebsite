@@ -78,12 +78,12 @@ namespace AnnouncementWebsite.Controllers
             }
         }
 
-        public IActionResult AnnouncementDetails(int id)
+        public async Task<IActionResult> AnnouncementDetails(int id)
         {
-            var announcement = _announcementRepository.GetAnnouncementById(id);
+            var announcement = await _announcementRepository.GetAnnouncementById(id);
             if (announcement == null)
                 return NotFound();
-            var similarAnnouncements = _announcementRepository.SimilarAnnouncements(announcement).Take(3);
+            var similarAnnouncements =  _announcementRepository.SimilarAnnouncements(announcement).Take(3);
             return View(new AnnouncementListViewModel
             {
                 Announcements = similarAnnouncements,
@@ -94,7 +94,7 @@ namespace AnnouncementWebsite.Controllers
         {
             if (id != null)
             {
-                var announcement = _announcementRepository.GetAnnouncementById(id);
+                var announcement = await _announcementRepository.GetAnnouncementById(id);
                 if (announcement == null)
                     return NotFound();
                 var editAnnouncement = new EditAnnouncementViewModel()
@@ -112,7 +112,7 @@ namespace AnnouncementWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> EditAnnouncement(EditAnnouncementViewModel editAnnouncement)
         {
-            var announcement = _announcementRepository.GetAnnouncementById(editAnnouncement.AnnouncementId);
+            var announcement = await _announcementRepository.GetAnnouncementById(editAnnouncement.AnnouncementId);
 
             announcement.Title = editAnnouncement.Title;
             announcement.Description = editAnnouncement.Description;
@@ -127,7 +127,7 @@ namespace AnnouncementWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAnnouncement(int id)
         {
-            var announcement = _announcementRepository.GetAnnouncementById(id);
+            var announcement = await _announcementRepository.GetAnnouncementById(id);
             if (announcement != null)
             {
                 await _announcementControllerService.DeleteImages(announcement);
@@ -151,7 +151,7 @@ namespace AnnouncementWebsite.Controllers
         public async Task<IActionResult> AddAnnouncement(Announcement announcement, IFormFile file)
         {
             var userId = _userManager.GetUserId(User);
-            var imageName = await _announcementControllerService.UploadImagesToAzure(file, userId);
+            var imageName = await _announcementControllerService.UploadImages(file, userId);
 
             if (ModelState.IsValid & imageName != null)
             {
@@ -184,10 +184,10 @@ namespace AnnouncementWebsite.Controllers
 
         }
 
-        public async Task<IActionResult> MyAnnouncementList()
+        public IActionResult MyAnnouncementList()
         {
             var userId = _userManager.GetUserId(User);
-            var myAnnouncement = _announcementRepository.AllAnnouncements.Where(a => a.AplicationUserId == userId);
+            var myAnnouncement =  _announcementRepository.AllAnnouncements.Where(a => a.AplicationUserId == userId);
 
             return View(new AnnouncementListViewModel
             {

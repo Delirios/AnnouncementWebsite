@@ -10,7 +10,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace AnnouncementWebsite.Services
 {
-    public class AnnouncementControllerService
+    public class AnnouncementControllerService : IAnnouncementControllerService
     {
         private readonly IBlobRepository _blobRepository;
 
@@ -32,7 +32,7 @@ namespace AnnouncementWebsite.Services
             await _blobRepository.DeleteFileBlobAsync(folderName);
         }
 
-        public async Task<string> UploadImagesToAzure(IFormFile file, string userId)
+        public async Task<string> UploadImages(IFormFile file, string userId)
         {
             string imageName = null;
             if (file != null)
@@ -51,10 +51,21 @@ namespace AnnouncementWebsite.Services
 
                 imageName = Path.Combine(uniqueFolderName, uniqueAnnouncementFolderName, newFileName);
 
-                await _blobRepository.UploadFileBlobAsync(imageName, file.OpenReadStream(), file.ContentType);
+                await UploadImagesToAWS(file, imageName);
+                //await _blobRepository.UploadFileBlobAsync(imageName, file.OpenReadStream(), file.ContentType);
 
             }
             return imageName;
+        }
+
+        public async Task UploadImagesToAWS(IFormFile file,string imageName )
+        {
+            await _blobRepository.UploadFileS3Async(imageName, file.OpenReadStream(), imageName);
+        }
+
+        public async Task UploadImagesToAzure(IFormFile file,string imageName)
+        {
+            await _blobRepository.UploadFileBlobAsync(imageName, file.OpenReadStream(), file.ContentType);
         }
     }
 }
