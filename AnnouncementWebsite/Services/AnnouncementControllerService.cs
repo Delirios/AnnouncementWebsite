@@ -34,12 +34,13 @@ namespace AnnouncementWebsite.Services
 
         public async Task<string> UploadImages(IFormFile file, string userId)
         {
-            string imageName = null;
+            //string imageName = null;
+            string newFileName = null;
             if (file != null)
             {
-                var uniqueFolderName = userId;
+                //var uniqueFolderName = userId;
 
-                var uniqueAnnouncementFolderName = Convert.ToString(Guid.NewGuid());
+                //var uniqueAnnouncementFolderName = Convert.ToString(Guid.NewGuid());
                 //Getting FileName
                 var fileName = Path.GetFileName(file.FileName);
                 //Assigning Unique Filename (Guid)
@@ -47,15 +48,15 @@ namespace AnnouncementWebsite.Services
                 //Getting file Extension
                 var fileExtension = Path.GetExtension(fileName);
                 // concatenating  FileName + FileExtension
-                var newFileName = String.Concat(UniqueFileName, fileExtension);
+                newFileName = String.Concat(UniqueFileName, fileExtension);
 
-                imageName = Path.Combine(uniqueFolderName, uniqueAnnouncementFolderName, newFileName);
+                //imageName = Path.Combine(uniqueFolderName, uniqueAnnouncementFolderName, newFileName);
 
-                await UploadImagesToAWS(file, imageName);
+                await UploadImagesToAWS(file, newFileName);
                 //await _blobRepository.UploadFileBlobAsync(imageName, file.OpenReadStream(), file.ContentType);
 
             }
-            return imageName;
+            return newFileName;
         }
 
         public async Task UploadImagesToAWS(IFormFile file,string imageName )

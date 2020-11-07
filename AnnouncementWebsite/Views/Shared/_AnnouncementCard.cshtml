@@ -4,7 +4,7 @@
     <div class="col-md-4">
         <a asp-controller="Announcement" asp-action="AnnouncementDetails" asp-route-id="@announcement.AnnouncementId">
         <div class="card mb-4 shadow-sm">
-            <img class="bd-placeholder-img card-img-top" width="100%" height="250" src="@String.Concat("https://announcementstorage.blob.core.windows.net/announcement/",
+            <img class="bd-placeholder-img card-img-top" width="100%" height="250" src="@String.Concat("https://myannouncement.s3.us-east-2.amazonaws.com/",
                                                                                             announcement.Image.Name)" />
             <div class="card-body">
                 <p class="card-title">@Model.Title</p>

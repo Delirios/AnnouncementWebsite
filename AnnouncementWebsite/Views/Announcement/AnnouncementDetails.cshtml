@@ -8,7 +8,7 @@
         @foreach (var announcement in @Model.Announcement.AnnouncementImages)
         {
             <div class="col-md-8">
-                <img class="img-fluid" src="@String.Concat("https://announcementstorage.blob.core.windows.net/announcement/",
+                <img class="img-fluid" src="@String.Concat("https://myannouncement.s3.us-east-2.amazonaws.com/",
                                                 announcement.Image.Name)" />
             </div>
         }

@@ -18,6 +18,8 @@ namespace AnnouncementWebsite.Repositories
         private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USEast2;
         //private readonly BlobServiceClient _blobServiceClient;
         //private readonly string containerName = "announcement";
+        string AWS_accessKey = "accessKey";
+        string AWS_secretKey = "secretKey";
         private readonly string bucketName = "myannouncement";
 
         private static IAmazonS3 s3Client;
@@ -25,7 +27,7 @@ namespace AnnouncementWebsite.Repositories
         public BlobRepository()
         {
             //_blobServiceClient = blobServiceClient;
-            s3Client = new AmazonS3Client(bucketRegion);
+            s3Client = new AmazonS3Client(AWS_accessKey, AWS_secretKey, bucketRegion);
         }
 
         #region AZURE
@@ -46,11 +48,38 @@ namespace AnnouncementWebsite.Repositories
         #region AWS
         public async Task UploadFileS3Async(string fileName, Stream content, string contentType)
         {
-            var fileTransferUtility = new TransferUtility(s3Client);
-            using (var fileToUpload = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+
+            using (var newMemoryStream = new MemoryStream())
             {
-                await fileTransferUtility.UploadAsync(fileToUpload, bucketName, fileName);
+                content.CopyTo(newMemoryStream);
+
+                var uploadRequest = new TransferUtilityUploadRequest
+                {
+                    InputStream = newMemoryStream,
+                    Key = fileName,
+                    BucketName = bucketName,
+                    CannedACL = S3CannedACL.PublicRead
+                };
+
+                var fileTransferUtility = new TransferUtility(s3Client);
+                await fileTransferUtility.UploadAsync(uploadRequest);
             }
+
+            //var uploadMultipartRequest = new TransferUtilityUploadRequest
+            //{
+            //    BucketName = "defaultBucket",
+            //    Key = "key",
+            //    InputStream = content,
+            //    PartSize = partSize
+            //};
+
+            //FileStream fs = new FileStream(content.EndRead(), FileMode.Open);
+
+            //var fileTransferUtility = new TransferUtility(s3Client);
+            //using (var fileToUpload = new FileStream(content, FileMode.Open, FileAccess.Read))
+            //{
+            //    await fileTransferUtility.UploadAsync(fileToUpload, bucketName, fileName);
+            //}
         }
         public async Task DeleteFileS3Async(string fileName)
         {
